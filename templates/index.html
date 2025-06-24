@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notion 智能助手</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background-color: #f7f7f7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .container {
+        background-color: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+      }
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+      textarea {
+        width: 100%;
+        height: 150px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 20px;
+        box-sizing: border-box;
+      }
+      .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .button {
+        flex-grow: 1;
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 4px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .btn-update {
+        background-color: #007aff;
+      } /* 蓝色更新 */
+      .btn-update:hover {
+        background-color: #005ecb;
+      }
+      .btn-query {
+        background-color: #34c759;
+      } /* 绿色查询 */
+      .btn-query:hover {
+        background-color: #2ea14f;
+      }
+      .btn-backup {
+        background-color: #ff9500;
+      } /* 新增：橙色备份 */
+      .btn-backup:hover {
+        background-color: #d47d00;
+      }
+      .message {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: bold;
+      }
+      .message.success {
+        background-color: #e5f7e5;
+        color: #34c759;
+      }
+      .message.error {
+        background-color: #ffeaea;
+        color: #ff3b30;
+      }
+      .answer-box {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 4px;
+        background-color: #f0f0f5;
+        border-left: 5px solid #007aff;
+      }
+      .answer-box h3 {
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Notion 智能助手</h1>
+      <form action="/process" method="post">
+        <label for="user_input">在此处输入您的**指令**或**问题**：</label>
+        <textarea
+          id="user_input"
+          name="user_input"
+          placeholder="更新示例：在末尾加上“今天心情不错。”&#10;查询示例：2000年1月1号我在做什么？"
+        ></textarea>
+
+        <div class="button-group">
+          <button
+            type="submit"
+            name="action"
+            value="update"
+            class="button btn-update"
+          >
+            更新文档
+          </button>
+          <button
+            type="submit"
+            name="action"
+            value="query"
+            class="button btn-query"
+          >
+            查询内容
+          </button>
+          <button
+            type="submit"
+            name="action"
+            value="backup"
+            class="button btn-backup"
+          >
+            一键备份
+          </button>
+        </div>
+      </form>
+
+      {% if message %}
+      <div class="message {{ 'success' if '成功' in message else 'error' }}">
+        {{ message }}
+      </div>
+      {% endif %} {% if answer %}
+      <div class="answer-box">
+        <h3>查询结果：</h3>
+        <p>{{ answer | safe }}</p>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

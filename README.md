@@ -1,0 +1,2 @@
+# MyNotionUpdater
+notion gpt updater
